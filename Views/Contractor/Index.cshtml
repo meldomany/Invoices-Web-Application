@@ -1,0 +1,49 @@
+﻿<form asp-action="UploadExcel" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-primary btn-block" asp-action="ExportToExcel">Export Contracts Excel</a>
+        </div>
+        <div class="col-md-6">
+            <input id="file" name="file" class="form-control" type="file" />
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success btn-block">Upload</button>
+        </div>
+    </div>
+</form>
+<hr>
+
+<table class="table table-hover" id="contractor-table">
+    <thead>
+        <tr>
+            <th scope="col">Contractor Name</th>
+            <th scope="col">Contractor Number</th>
+            <th scope="col">
+                <a class="btn btn-primary" asp-action="Create">Create a new contractor</a>
+            </th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script>
+        $("#contractor-table").DataTable({
+            "ajax": {
+                "url": "/Contractor/GetContractorsList"
+            },
+            "columns": [
+                { "data": "name" },
+                { "data": "number" },
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return `
+                                <a href="/Contractor/Delete?contractorId=${data}" class="btn btn-danger">Delete</a>
+                                <a href="/Contractor/Edit?contractorId=${data}" class="btn btn-success">Edit</a>
+                        `;
+                    }
+                }
+            ]
+        });
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿@model InvoiceApp.Models.ViewModels.InvoiceVM
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-4">Update Invoice Number @Model.Invoice.InvoiceNumber</h3>
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="Invoice.Id" />
+                    <div class="form-group">
+                        <label asp-for="Invoice.InvoiceNumber"></label>
+                        <input asp-for="Invoice.InvoiceNumber" class="form-control" />
+                        <span asp-validation-for="Invoice.InvoiceNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Invoice.CreatedAt"></label>
+                        <input asp-for="Invoice.CreatedAt" class="form-control" />
+                        <span asp-validation-for="Invoice.CreatedAt" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    @for (int i = 0; i < Model.InvoiceCallOffs.Count(); i++)
+    {
+        <div class="col-md-4">
+        <div class="card my-3">
+            <div class="card-body">
+                <h3 class="card-title">Call off number: @Model.InvoiceCallOffs[i].CallOff.CallOffNumber</h3>
+                <h6 class="card-subtitle">@Model.InvoiceCallOffs[i].CallOff.Description</h6>
+                    <a asp-action="RemoveCallOff" asp-route-callOffId="@Model.InvoiceCallOffs[i].CallOff.Id" asp-route-invoiceId="@Model.Invoice.Id" class="btn btn-danger mt-3">Remove</a>
+             </div>
+        </div>
+        </div>
+    }
+</div>
+
+
+
+
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+        });
+    </script>
+}

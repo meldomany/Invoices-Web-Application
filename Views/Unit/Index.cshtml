@@ -1,0 +1,46 @@
+﻿<form asp-action="UploadExcel" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-primary btn-block" asp-action="ExportToExcel">Export Units Excel</a>
+        </div>
+        <div class="col-md-6">
+            <input id="file" name="file" class="form-control" type="file" />
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success btn-block">Upload</button>
+        </div>
+    </div>
+</form>
+<hr>
+<table class="table table-hover" id="unit-table">
+    <thead>
+        <tr>
+            <th scope="col">Unit Name</th>
+            <th scope="col">
+                <a class="btn btn-primary" asp-action="Create">Create a new unit</a>
+            </th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script>
+        $("#unit-table").DataTable({
+            "ajax": {
+                "url": "/Unit/GetUnitsList"
+            },
+            "columns": [
+                { "data": "name" },
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return `
+                                <a href="/Unit/Delete?unitId=${data}" class="btn btn-danger">Delete</a>
+                                <a href="/Unit/Edit?unitId=${data}" class="btn btn-success">Edit</a>
+                        `;
+                    }
+                }
+            ]
+        });
+    </script>
+}

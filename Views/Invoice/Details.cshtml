@@ -1,0 +1,48 @@
+﻿<div class="container">
+    <table class="table table-hover" id="invoice-details-table">
+        <thead>
+            <tr>
+                <th scope="col">Quantity</th>
+                <th scope="col">I.Number</th>
+                <th scope="col">I.Description</th>
+                <th scope="col">I.Quantity</th>
+                <th scope="col">I.Price</th>
+                <th scope="col">I.Total Price</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Contractor</th>
+                <th scope="col">Control</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts {
+        <script>
+                let searchParams = new URLSearchParams(window.location.search);
+                let param = searchParams.get('invoiceId');
+
+                $("#invoice-details-table").DataTable({
+                    "ajax": {
+                        "url": "/Invoice/GetInvoiceDetailsList?invoiceId=" + param
+                    },
+                    "columns": [
+                        { "data": "quantity" },
+                        { "data": "item.itemNo" },
+                        { "data": "item.description" },
+                        { "data": "item.quantity" },
+                        { "data": "item.price" },
+                        { "data": "item.totalPrice" },
+                        { "data": "item.unit.name" },
+                        { "data": "item.contractor.name" },
+                        {
+                            "data": "id",
+                            "render": function (data) {
+                                return `
+                                     <a href="/Invoice/RemoveItem?callOffItemId=${data}&&invoiceId=${param}" class="btn btn-block btn-danger">Delete</a>
+                                `;
+                            }
+                        }
+                    ]
+                })
+        </script>
+}

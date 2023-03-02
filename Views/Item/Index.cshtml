@@ -1,0 +1,91 @@
+﻿<form asp-action="UploadExcel" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-primary btn-block" asp-action="ExportToExcel">Export Items Excel</a>
+        </div>
+        <div class="col-md-6">
+            <input id="file" name="file" class="form-control" type="file" />
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success btn-block">Upload</button>
+        </div>
+    </div>
+</form>
+<hr>
+<table class="table table-hover" id="item-table">
+    <thead>
+        <tr>
+            <th scope="col">Num</th>
+            <th scope="col">Desc</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">T.Price</th>
+            <th scope="col">Unit</th>
+            <th scope="col">Contractor</th>
+@*            <th scope="col">CallOffs</th>
+            <th scope="col">Invoices</th>*@
+            <th scope="col">
+                <a class="btn btn-primary" asp-action="Create">Create new</a>
+            </th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    <script>
+        $("#item-table").DataTable({
+            "ajax": {
+                "url": "/Item/GetItemsList"
+            },
+            "columns": [
+                { "data": "itemNo" },
+                { "data": "description" },
+                { "data": "quantity" },
+                { "data": "price" },
+                { "data": "totalPrice" },
+                { "data": "unit.name" },
+                { "data": "contractor.name" },
+                //{
+                //    "data": "callOffItems",
+                //    "render": function (data) {
+                //        var links = '';
+                //        var itemCallOffId = [];
+                //        data.forEach(item => {
+                //            if (!itemCallOffId.includes(item.callOff.id)) {
+                //                itemCallOffId.push(item.callOff.id);
+                //                links += '<a href="/CallOff/Edit?callOffId=' + item.callOff.id + '" class="btn btn-link">' + item.callOff.callOffNumber + '</a><br>'
+                //            }
+                //        });
+                //        return links;
+                //    }
+                //},
+                //{
+                //    "data": "callOffItems",
+                //    "render": function (data) {
+                //        var links = '';
+                //        var invoicesId = [];
+                //        data.forEach(iCOI => {
+                //            for (var i = 0; i < iCOI.invoiceCallOffItems.length; i++) {
+
+                //                if (!invoicesId.includes(iCOI.invoiceCallOffItems[i].invoice.id)) {
+                //                    invoicesId.push(iCOI.invoiceCallOffItems[i].invoice.id);
+                //                    links += '<a href="/Invoice/Details?invoiceId=' + iCOI.invoiceCallOffItems[i].invoice.id + '" class="btn btn-link">' + iCOI.invoiceCallOffItems[i].invoice.invoiceNumber + '</a><br>'
+                //                }
+                //            }
+                //        });
+                //        return links;
+                //    }
+                //},
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return `
+                                <a href="/Item/Delete?itemId=${data}" class="btn btn-danger">Delete</a>
+                                <a href="/Item/Edit?itemId=${data}" class="btn btn-success">Edit</a>
+                        `;
+                    }
+                }
+            ]
+        });
+    </script>
+}

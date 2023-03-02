@@ -1,0 +1,70 @@
+﻿<form asp-action="UploadExcel" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-info btn-block" asp-action="ExportToExcel">Export CallOffs Excel</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-primary btn-block" asp-action="UploadCallOffItemsExcel">Upload CallOff Items</a>
+        </div>
+        <div class="col-md-4">
+            <input id="file" name="file" class="form-control" type="file" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-success btn-block">Upload</button>
+        </div>
+    </div>
+</form>
+<hr>
+
+<table class="table table-hover" id="calloff-table">
+    <thead>
+        <tr>
+            <th scope="col">Call Off Number</th>
+            <th scope="col">Description</th>
+            <th scope="col">
+                <form asp-action="Create" method="get">
+                    <div class="form-row">
+                        <div class="col float-left">
+                            <input type="number" name="itemsCount" class="form-control" placeholder="Number of Items" required>
+                        </div>
+                        <div class="col-left">
+                            <button class="btn btn-primary" type="submit">Create a new call off</button>
+                        </div>
+                    </div>
+                </form>
+            </th>
+        </tr>
+    </thead>
+</table>
+ 
+@section Scripts {
+    <script>
+        $("#calloff-table").DataTable({
+            "ajax": {
+                "url": "/CallOff/GetCallOffsList"
+            },
+            "columns": [
+                { "data": "callOffNumber" },
+                { "data": "description" },
+                {
+                    "data": "id",
+                    "render": function (data) {
+                        return `                               
+                            <div class="form-row">
+                                <div class="col">
+                                    <a href="/CallOff/Delete?callOffId=${data}" class="btn btn-block btn-danger">Delete</a>
+                                </div>
+                                <div class="col">
+                                    <a href="/CallOff/Edit?callOffId=${data}" class="btn btn-block btn-success">Edit</a>
+                                </div>
+                                <div class="col">
+                                    <a href="/CallOff/AssignItems?callOffId=${data}&itemsCount=1" class="btn btn-block btn-primary">Assign Items</a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            ]
+        });
+    </script>
+}

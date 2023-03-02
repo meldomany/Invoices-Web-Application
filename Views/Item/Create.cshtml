@@ -1,0 +1,64 @@
+﻿@model InvoiceApp.Models.ViewModels.ItemVM
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-4">Create a new item</h3>
+                <form asp-action="Create" method="post">
+                    <div class="form-group">
+                        <label asp-for="Item.ItemNo"></label>
+                        <input asp-for="Item.ItemNo" class="form-control" />
+                        <span asp-validation-for="Item.ItemNo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Item.Description"></label>
+                        <input asp-for="Item.Description" class="form-control" />
+                        <span asp-validation-for="Item.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Item.Quantity"></label>
+                        <input asp-for="Item.Quantity" class="form-control" />
+                        <span asp-validation-for="Item.Quantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Item.Price"></label>
+                        <input asp-for="Item.Price" class="form-control" />
+                        <span asp-validation-for="Item.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-row mb-5">
+                        <div class="col">
+                            <label asp-for="Item.UnitId"></label>
+                            <select asp-for="Item.UnitId" asp-items="@Model.UnitSelectList" class="js-example-basic-single form-control">
+                                <option disabled selected>--Select Unit--</option>
+                            </select>
+                            <span asp-validation-for="Item.UnitId" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label asp-for="Item.ContractorId"></label>
+                            <select asp-for="Item.ContractorId" asp-items="@Model.ContractorSelectList" class="js-example-basic-single form-control">
+                                <option disabled selected>--Select Contractor--</option>
+                            </select>
+                            <span asp-validation-for="Item.ContractorId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+        });
+    </script>
+
+}

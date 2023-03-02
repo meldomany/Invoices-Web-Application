@@ -1,0 +1,108 @@
+﻿@model InvoiceApp.Models.ViewModels.InvoiceCallOffsVM
+<form asp-action="AssignCallOffs" method="post">
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Assign call offs for invoice number: @Model.Invoice.InvoiceNumber</h3>
+        </div>
+        <div class="card-body">
+            <input type="hidden" asp-for="@Model.Invoice.Id" />
+            <div class="form-group">
+                <select accesskey="form-control" id="assignCallOffs-dropDownList" asp-for="CallOffsIDS"
+                        asp-items="@Model.CallOffsSelectList" multiple class="form-control"></select>
+            </div>
+            <button type="submit" class="btn btn-primary">Assign CallOffs</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#assignCallOffs-dropDownList').multiSelect();
+        });
+    </script>
+
+}
+
+
+
+
+
+
+
+@*@model InvoiceApp.Models.ViewModels.InvoiceVM
+
+<h3 class="text-center mb-4">Assign CallOffs to Invoice Number: @Model.Invoice.InvoiceNumber</h3>
+
+<div class="col-md-12">
+    <div class="form-row my-5">
+        <div class="col-md-9">
+            <input placeholder="CallOffs Count" id="callOffsCount" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <a href="#" id="assignCallOffssCount" class="btn btn-block btn-primary">Add</a>
+        </div>
+    </div>
+</div>
+
+<form asp-controller="Invoice" asp-action="AssignCallOffs" method="post">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <input type="hidden" id="invoiceId" asp-for="Invoice.Id" />
+                    <div class="form-group">
+                        <label asp-for="Invoice.InvoiceNumber"></label>
+                        <input asp-for="Invoice.InvoiceNumber" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Invoice.CreatedAt"></label>
+                        <input asp-for="Invoice.CreatedAt" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @for (int i = 0; i < Model.InvoiceCallOffs.Count(); i++)
+        {
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col">
+                                <label asp-for="@Model.InvoiceCallOffs[i].CallOffId"></label>
+                                <select asp-for="@Model.InvoiceCallOffs[i].CallOffId" asp-items="@Model.CallOffsSelectList" class="js-example-basic-single form-control">
+                                    <option disabled selected>--Select Item--</option>
+                                </select>
+                                <span asp-validation-for="@Model.InvoiceCallOffs[i].CallOffId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary btn-block mt-5">Assign CallOffs</button>
+</form>
+
+
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+
+            document.getElementById('assignCallOffssCount').addEventListener('click', function () {
+                var callOffsCount = document.getElementById("callOffsCount").value;
+                var invoiceId = document.getElementById("invoiceId").value;
+
+                this.href = '/Invoice/Assign?invoiceId=' + invoiceId + '&callOffsCount=' + callOffsCount;
+            });
+
+        });
+    </script>
+}*@
